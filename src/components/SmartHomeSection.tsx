@@ -82,10 +82,7 @@ export default function SmartHomeSection() {
           >
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-brand-gray to-brand-bg overflow-hidden flex items-center justify-center">
               <div className="text-center relative z-10">
-                <Smartphone className="w-20 h-20 text-white/10 mx-auto mb-4" />
-                <p className="text-white/20 text-sm font-medium uppercase tracking-widest">Smartphone Control</p>
-                <p className="text-white/10 text-xs mt-2">Replace with real image</p>
-              </div>
+<img src="https://images.unsplash.com/photo-1608377205619-03a0b4c4e270?q=80&w=410&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />              </div>
               {/* Animated light glows */}
               <motion.div
                 className="absolute top-[20%] left-[30%] w-24 h-24 rounded-full bg-brand-gold/20 blur-2xl"

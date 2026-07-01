@@ -82,10 +82,7 @@ export default function HeroSection() {
           >
             <div className="w-full h-full bg-gradient-to-br from-brand-gray to-brand-bg rounded-3xl flex items-center justify-center">
               <div className="text-center">
-                <Home className="w-24 h-24 text-white/10 mx-auto mb-4" />
-                <p className="text-white/20 text-sm font-medium uppercase tracking-widest">Smart Home Preview</p>
-                <p className="text-white/10 text-xs mt-2">Replace with real image</p>
-              </div>
+<img src="https://plus.unsplash.com/premium_photo-1688686804638-fadb460edc4a?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />              </div>
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-brand-bg/60 via-transparent to-transparent rounded-3xl" />
           </motion.div>

@@ -26,10 +26,7 @@ export default function FarmingSolutions() {
             transition={{ duration: 0.8 }}
           >
             <div className="text-center">
-              <Tractor className="w-24 h-24 text-brand-green/15 mx-auto mb-4" />
-              <p className="text-white/20 text-sm font-medium uppercase tracking-widest">Farming Solutions</p>
-              <p className="text-white/10 text-xs mt-2">Replace with real image</p>
-            </div>
+<img src="https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />            </div>
             <div className="absolute inset-0 bg-gradient-to-t from-brand-bg/60 via-transparent to-transparent" />
           </motion.div>
 
