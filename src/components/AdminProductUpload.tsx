@@ -1,4 +1,4 @@
-import { type ChangeEvent, useState } from 'react';
+import { type ChangeEvent, type FormEvent, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Upload, X, Plus } from 'lucide-react';
 
@@ -25,6 +25,12 @@ export default function AdminProductUpload() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    const apiKey = import.meta.env.VITE_IMGBB_API_KEY;
+    if (!apiKey || typeof apiKey !== 'string' || !apiKey.trim()) {
+      setUploadError('Missing ImgBB API key. Add VITE_IMGBB_API_KEY to your .env file.');
+      return;
+    }
+
     setIsUploading(true);
     setUploadError('');
 
@@ -32,22 +38,27 @@ export default function AdminProductUpload() {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = async () => {
-        const base64 = reader.result as string;
+        const rawData = reader.result as string;
+        const base64 = rawData.replace(/^data:image\/[a-zA-Z]+;base64,/, '');
 
-        const response = await fetch('/.netlify/functions/upload-imgbb', {
+        const formData = new FormData();
+        formData.append('key', apiKey);
+        formData.append('image', base64);
+        formData.append('name', name || file.name);
+
+        const response = await fetch('https://api.imgbb.com/1/upload', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: base64, name }),
+          body: formData,
         });
 
         const data = await response.json();
 
-        if (response.ok && data.url) {
-          setImage(data.url);
+        if (response.ok && data?.data?.display_url) {
+          setImage(data.data.display_url);
           setSuccessMessage('Image uploaded successfully!');
           setTimeout(() => setSuccessMessage(''), 3000);
         } else {
-          setUploadError(data.error || 'Failed to upload image');
+          setUploadError(data?.error?.message || 'Failed to upload image');
         }
 
         setIsUploading(false);
@@ -62,7 +73,7 @@ export default function AdminProductUpload() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!name || !category || !image) {
@@ -203,7 +214,7 @@ export default function AdminProductUpload() {
             <h3 className="text-sm font-semibold text-brand-gold mb-2">Setup Instructions:</h3>
             <ol className="text-xs text-white/60 space-y-1 list-decimal list-inside">
               <li>Get a free ImgBB API key from https://api.imgbb.com/</li>
-              <li>Add VITE_IMGBB_API_KEY to your Netlify environment variables (Site Settings → Environment variables)</li>
+              <li>Add <code>VITE_IMGBB_API_KEY</code> to your project <code>.env</code> file</li>
               <li>In production, connect this to a database to persist products</li>
             </ol>
           </div>
