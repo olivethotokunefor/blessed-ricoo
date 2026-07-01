@@ -16,14 +16,22 @@ import TestimonialsSection from './components/TestimonialsSection';
 import FAQSection from './components/FAQSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
+import AdminProductUpload from './components/AdminProductUpload';
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [ready, setReady] = useState(false);
+  const [isAdminMode, setIsAdminMode] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => setReady(true), 100);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsAdminMode(new URLSearchParams(window.location.search).get('admin') === '1');
+    }
   }, []);
 
   const handleSplashComplete = useCallback(() => {
@@ -36,7 +44,7 @@ function App() {
         {showSplash && <SplashScreen onComplete={handleSplashComplete} />}
       </AnimatePresence>
 
-      {ready && (
+      {ready && !isAdminMode && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: showSplash ? 0 : 1 }}
@@ -61,6 +69,8 @@ function App() {
           <Footer />
         </motion.div>
       )}
+
+      {ready && isAdminMode && <AdminProductUpload />}
     </>
   );
 }

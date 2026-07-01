@@ -22,11 +22,17 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
           transition={{ duration: 0.8, ease: 'easeInOut' }}
         >
           <motion.div
-            className="relative"
+            className="relative flex flex-col items-center"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
+            <div className="relative mb-8 flex h-28 w-28 items-center justify-center rounded-[36px] border border-brand-gold/20 bg-brand-gold/10 shadow-[0_0_60px_rgba(246,184,0,0.18)]">
+              <span className="text-4xl font-black text-brand-gold">B+</span>
+              <span className="absolute -right-2 -top-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-brand-gold text-brand-bg text-sm font-bold">
+                +
+              </span>
+            </div>
             <div className="absolute inset-0 rounded-full blur-3xl bg-brand-gold/20 animate-glow-pulse" />
             <motion.h1
               className="relative text-2xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight text-center"

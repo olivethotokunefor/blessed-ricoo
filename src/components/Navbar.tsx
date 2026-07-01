@@ -34,13 +34,12 @@ export default function Navbar() {
         transition={{ duration: 0.8, ease: 'easeOut' }}
       >
         <div className="flex items-center justify-between px-6 py-4">
-          <a href="#home" className="flex items-center gap-2 text-lg font-bold tracking-tight">
-            <div className="flex items-center gap-1">
-              <Sun className="w-5 h-5 text-brand-gold" />
-              <Zap className="w-5 h-5 text-brand-gold" />
+          <a href="#home" className="flex items-center gap-3 text-lg font-bold tracking-tight">
+            <div className="flex h-11 w-11 items-center justify-center rounded-3xl bg-brand-gold/10 text-brand-gold font-black text-lg shadow-inner">
+              B+
             </div>
             <span className="hidden sm:inline">BLESSED RICCO</span>
-            <span className="sm:hidden text-brand-gold">BRUL</span>
+            <span className="sm:hidden text-brand-gold">B+</span>
           </a>
 
           <div className="hidden md:flex items-center gap-8">

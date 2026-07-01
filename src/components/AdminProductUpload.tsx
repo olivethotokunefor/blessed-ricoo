@@ -1,11 +1,17 @@
-import { useState } from 'react';
+import { type ChangeEvent, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Upload, X, Plus } from 'lucide-react';
 
 const CATEGORIES = ['Solar', 'Security', 'Smart Home', 'Farming', 'Furniture', 'Beddings'];
 
-// API key from environment variable (VITE_IMGBB_API_KEY)
-const IMGBB_API_KEY = import.meta.env.VITE_IMGBB_API_KEY || '';
+function saveGalleryItem(item: { name: string; category: string; image: string }) {
+  if (typeof window === 'undefined') return;
+  const existing = window.localStorage.getItem('blessed-rico-gallery');
+  const gallery = existing ? JSON.parse(existing) : [];
+  gallery.unshift(item);
+  window.localStorage.setItem('blessed-rico-gallery', JSON.stringify(gallery));
+  window.dispatchEvent(new Event('gallery-update'));
+}
 
 export default function AdminProductUpload() {
   const [name, setName] = useState('');
@@ -15,7 +21,7 @@ export default function AdminProductUpload() {
   const [uploadError, setUploadError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -23,30 +29,27 @@ export default function AdminProductUpload() {
     setUploadError('');
 
     try {
-      // Convert file to base64
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = async () => {
         const base64 = reader.result as string;
-        
-        // Upload to ImgBB directly from frontend
-        const formData = new FormData();
-        formData.append('image', base64);
 
-        const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+        const response = await fetch('/.netlify/functions/upload-imgbb', {
           method: 'POST',
-          body: formData,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: base64, name }),
         });
 
         const data = await response.json();
 
-        if (data.success) {
-          setImage(data.data.display_url);
+        if (response.ok && data.url) {
+          setImage(data.url);
           setSuccessMessage('Image uploaded successfully!');
           setTimeout(() => setSuccessMessage(''), 3000);
         } else {
-          setUploadError(data.error?.message || 'Failed to upload image');
+          setUploadError(data.error || 'Failed to upload image');
         }
+
         setIsUploading(false);
       };
       reader.onerror = () => {
@@ -61,16 +64,14 @@ export default function AdminProductUpload() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!name || !category || !image) {
       setUploadError('Please fill in all fields');
       return;
     }
 
-    // In production, this would save to a database
-    console.log('New product:', { name, category, image });
-    
-    setSuccessMessage('Product added successfully! (In production, this would save to database)');
+    saveGalleryItem({ name, category, image });
+    setSuccessMessage('Product added successfully! It now appears in the gallery.');
     setName('');
     setCategory('Solar');
     setImage('');
@@ -88,16 +89,6 @@ export default function AdminProductUpload() {
         >
           <h1 className="text-3xl font-bold text-white mb-2">Add New Product</h1>
           <p className="text-white/60 mb-8">Upload an image and add product details</p>
-
-          {!IMGBB_API_KEY && (
-            <motion.div
-              className="mb-6 p-4 bg-yellow-500/20 border border-yellow-500/50 rounded-xl text-yellow-400"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              Please add VITE_IMGBB_API_KEY to your Netlify environment variables. Get your free API key from https://api.imgbb.com/
-            </motion.div>
-          )}
 
           {successMessage && (
             <motion.div

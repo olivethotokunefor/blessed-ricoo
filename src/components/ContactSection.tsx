@@ -9,7 +9,11 @@ export default function ContactSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert('Thank you for reaching out! We will contact you shortly.');
+
+    const subject = `Inquiry from ${formData.name}`;
+    const body = `Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0APhone: ${formData.phone}%0D%0A%0D%0A${formData.message}`;
+    window.location.href = `mailto:farmricco@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+
     setFormData({ name: '', email: '', phone: '', message: '' });
   };
 
@@ -24,11 +28,10 @@ export default function ContactSection() {
         >
           <span className="text-brand-gold text-sm font-semibold tracking-widest uppercase">Get In Touch</span>
           <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-bold">Contact Us</h2>
-          <p className="mt-4 text-white/50 max-w-xl mx-auto">Ready to upgrade your home or farm? Reach out today.</p>
+          <p className="mt-4 text-white/50 max-w-xl mx-auto">Ready to upgrade your home or farm? Reach out via email and we’ll get back to you fast.</p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Left - Info */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -87,17 +90,22 @@ export default function ContactSection() {
               </div>
             </div>
 
-            {/* Map placeholder */}
-            <div className="h-48 rounded-3xl bg-gradient-to-br from-brand-gray to-brand-bg flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="w-12 h-12 text-white/10 mx-auto mb-2" />
-                <p className="text-white/20 text-sm font-medium uppercase tracking-widest">Map Location</p>
-                <p className="text-white/10 text-xs mt-1">Replace with real map</p>
+            <div className="overflow-hidden rounded-3xl border border-white/10 shadow-xl shadow-black/20">
+              <iframe
+                title="Business location"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=3.665%2C6.415%2C3.68%2C6.435&layer=mapnik&marker=6.425%2C3.672"
+                className="h-80 w-full border-0"
+                loading="lazy"
+              />
+              <div className="bg-brand-bg/80 p-4 text-sm text-white/60">
+                <p>Ajah, Lagos, Nigeria</p>
+                <a href="https://www.openstreetmap.org/?mlat=6.425&mlon=3.672#map=15/6.4250/3.6720" target="_blank" rel="noopener noreferrer" className="text-brand-gold hover:text-white transition-colors">
+                  Open full map
+                </a>
               </div>
             </div>
           </motion.div>
 
-          {/* Right - Form */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
