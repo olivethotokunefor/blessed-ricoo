@@ -14,6 +14,7 @@ import FarmingSolutions from './components/FarmingSolutions';
 import InstallationProcess from './components/InstallationProcess';
 import WhyChooseUs from './components/WhyChooseUs';
 import TestimonialsSection from './components/TestimonialsSection';
+import ReviewsSection from './components/ReviewsSection';
 import FAQSection from './components/FAQSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
@@ -132,6 +133,7 @@ function App() {
             <InstallationProcess />
             <WhyChooseUs />
             <TestimonialsSection />
+            <ReviewsSection />
             <FAQSection />
             <ContactSection />
           </main>

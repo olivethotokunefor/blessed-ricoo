@@ -26,6 +26,7 @@ const firebaseConfig: FirebaseOptions = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const productsCollection = collection(db, 'products');
+const reviewsCollection = collection(db, 'reviews');
 
 export type Product = {
   id: string;
@@ -99,4 +100,47 @@ export async function getProducts(): Promise<Product[]> {
   const snapshot = await getDocs(productsQuery);
 
   return snapshot.docs.map(normalizeProduct);
+}
+
+// Review types and functions
+export type Review = {
+  id: string;
+  name: string;
+  email: string;
+  rating: number;
+  message: string;
+  createdAt: unknown;
+};
+
+function normalizeReview(docSnap: QueryDocumentSnapshot<DocumentData>): Review {
+  const data = docSnap.data();
+
+  return {
+    id: docSnap.id,
+    name: String(data.name ?? ''),
+    email: String(data.email ?? ''),
+    rating: Number(data.rating ?? 5),
+    message: String(data.message ?? ''),
+    createdAt: data.createdAt ?? null,
+  };
+}
+
+export async function createReview(review: Omit<Review, 'id' | 'createdAt'>): Promise<Review> {
+  const docRef = await addDoc(reviewsCollection, {
+    ...review,
+    createdAt: serverTimestamp(),
+  });
+
+  return {
+    id: docRef.id,
+    ...review,
+    createdAt: null,
+  };
+}
+
+export async function getReviews(): Promise<Review[]> {
+  const reviewsQuery = query(reviewsCollection, orderBy('createdAt', 'desc'));
+  const snapshot = await getDocs(reviewsQuery);
+
+  return snapshot.docs.map(normalizeReview);
 }
