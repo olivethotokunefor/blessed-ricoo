@@ -3,74 +3,17 @@ import { motion, useInView } from 'framer-motion';
 import SectionMeta from '../lib/SectionMeta';
 import { getProducts, type Product } from '../lib/firebase';
 
-const defaultGallery: Product[] = [
-  {
-    id: 'default-1',
-    name: 'Solar Installation',
-    description: 'Clean, reliable solar power for homes and businesses.',
-    category: 'Solar',
-    price: 250000,
-    image: 'https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1000&q=80',
-    featured: true,
-    createdAt: null,
-    updatedAt: null,
-  },
-  {
-    id: 'default-2',
-    name: 'Smart Home Hub',
-    description: 'Control lighting and security from one central system.',
-    category: 'Smart Home',
-    price: 95000,
-    image: 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1000&q=80',
-    featured: false,
-    createdAt: null,
-    updatedAt: null,
-  },
-  {
-    id: 'default-3',
-    name: 'Security Camera Suite',
-    description: 'Advanced CCTV with remote monitoring and alerts.',
-    category: 'Security',
-    price: 120000,
-    image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1000&q=80',
-    featured: false,
-    createdAt: null,
-    updatedAt: null,
-  },
-  {
-    id: 'default-4',
-    name: 'Cozy Bedding Setup',
-    description: 'Comfortable furniture and bedding for modern homes.',
-    category: 'Furniture + Beddings',
-    price: 78000,
-    image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80',
-    featured: false,
-    createdAt: null,
-    updatedAt: null,
-  },
-  {
-    id: 'default-5',
-    name: 'Farm Machinery',
-    description: 'Durable equipment designed for small and large-scale farms.',
-    category: 'Farming',
-    price: 180000,
-    image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80',
-    featured: false,
-    createdAt: null,
-    updatedAt: null,
-  },
-  {
-    id: 'default-6',
-    name: 'Control Console',
-    description: 'Modern dashboards for smart systems and automation.',
-    category: 'Smart Home',
-    price: 65000,
-    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1000&q=80',
-    featured: false,
-    createdAt: null,
-    updatedAt: null,
-  },
-];
+const placeholderProducts: Product[] = Array.from({ length: 5 }, (_, index) => ({
+  id: `placeholder-${index}`,
+  name: 'Loading product...',
+  description: '',
+  category: 'Loading',
+  price: 0,
+  image: 'https://via.placeholder.com/1000x600/111827/cccccc?text=Loading',
+  featured: false,
+  createdAt: null,
+  updatedAt: null,
+}));
 
 export default function ProductsSection() {
   const ref = useRef(null);
@@ -102,7 +45,7 @@ export default function ProductsSection() {
     return () => window.removeEventListener('product-updated', handleProductUpdate);
   }, []);
 
-  const galleryItems = useMemo(() => (products.length ? products : defaultGallery), [products]);
+  const galleryItems = useMemo(() => products, [products]);
   const bentoClasses = ['col-span-2 row-span-2', 'col-span-2 row-span-1', 'col-span-1 row-span-1', 'col-span-1 row-span-2', 'col-span-2 row-span-1', 'col-span-1 row-span-1'];
   const visibleItems = showAll ? galleryItems : galleryItems.slice(0, 5);
 
@@ -129,7 +72,7 @@ export default function ProductsSection() {
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {(isLoading ? defaultGallery : visibleItems).map((item, i) => (
+          {(isLoading ? placeholderProducts : visibleItems).map((item, i) => (
             <motion.article
               key={`${item.id}-${i}`}
               className={`group relative overflow-hidden rounded-[32px] bg-brand-gray shadow-2xl shadow-black/30 ${bentoClasses[i % bentoClasses.length]} min-h-[260px]`}
@@ -165,6 +108,12 @@ export default function ProductsSection() {
             >
               {showAll ? 'Show less' : 'See more'}
             </button>
+          </div>
+        )}
+        {!isLoading && !galleryItems.length && (
+          <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-8 text-center text-white/60">
+            <p className="text-lg font-semibold text-white">No products found in Firestore.</p>
+            <p className="mt-2 text-sm">Upload products using the admin panel and redeploy once your Firestore rules are set.</p>
           </div>
         )}
       </div>
