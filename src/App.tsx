@@ -17,7 +17,6 @@ import TestimonialsSection from './components/TestimonialsSection';
 import FAQSection from './components/FAQSection';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
-import logo from './assets/logo.png';
 const AdminProductUpload = lazy(() => import('./components/AdminProductUpload'));
 
 function App() {
@@ -81,9 +80,11 @@ function App() {
             <meta property="og:description" content="Premium solar solutions, CCTV systems, smart home automation, and farming equipment." />
             <meta property="og:url" content="https://blessed-rico.netlify.app/" />
             <meta property="og:type" content="website" />
+            <meta property="og:image" content="https://blessed-rico.netlify.app/og-image.svg" />
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content="BLESSED RICCO — Solar, CCTV, Smart Home & Farming" />
             <meta name="twitter:description" content="Premium solar solutions, CCTV systems, smart home automation, and farming equipment." />
+            <meta name="twitter:image" content="https://blessed-rico.netlify.app/og-image.svg" />
             <script type="application/ld+json">
               {`{
                 "@context": "https://schema.org",
@@ -92,7 +93,7 @@ function App() {
                     "@type": "Organization",
                     "name": "BLESSED RICCO UNIVERSAL LIMITED",
                     "url": "https://blessed-rico.netlify.app/",
-                    "logo": ${logo},
+                    "logo": "https://blessed-rico.netlify.app/og-image.svg",
                     "sameAs": []
                   },
                   {
@@ -110,7 +111,7 @@ function App() {
                       "addressCountry": "NG"
                     },
                     "openingHours": ["Mo-Fr 09:00-17:00"],
-                    "image": ${logo},
+                    "image": "https://blessed-rico.netlify.app/og-image.svg",
                     "url": "https://blessed-rico.netlify.app/",
                     "sameAs": []
                   }

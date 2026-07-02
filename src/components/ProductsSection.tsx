@@ -1,82 +1,116 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
 import SectionMeta from '../lib/SectionMeta';
+import { getProducts, type Product } from '../lib/firebase';
 
-type GalleryItem = {
-  name: string;
-  category: string;
-  image: string;
-};
-
-const defaultGallery: GalleryItem[] = [
+const defaultGallery: Product[] = [
   {
-    name: 'Solar Setup',
+    id: 'default-1',
+    name: 'Solar Installation',
+    description: 'Clean, reliable solar power for homes and businesses.',
     category: 'Solar',
+    price: 250000,
     image: 'https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=1000&q=80',
+    featured: true,
+    createdAt: null,
+    updatedAt: null,
   },
   {
-    name: 'Smart Living',
+    id: 'default-2',
+    name: 'Smart Home Hub',
+    description: 'Control lighting and security from one central system.',
     category: 'Smart Home',
+    price: 95000,
     image: 'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1000&q=80',
+    featured: false,
+    createdAt: null,
+    updatedAt: null,
   },
   {
-    name: 'Security Detail',
+    id: 'default-3',
+    name: 'Security Camera Suite',
+    description: 'Advanced CCTV with remote monitoring and alerts.',
     category: 'Security',
+    price: 120000,
     image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1000&q=80',
+    featured: false,
+    createdAt: null,
+    updatedAt: null,
   },
   {
-    name: 'Cozy Bedding',
+    id: 'default-4',
+    name: 'Cozy Bedding Setup',
+    description: 'Comfortable furniture and bedding for modern homes.',
     category: 'Furniture + Beddings',
+    price: 78000,
     image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=80',
+    featured: false,
+    createdAt: null,
+    updatedAt: null,
   },
   {
+    id: 'default-5',
     name: 'Farm Machinery',
+    description: 'Durable equipment designed for small and large-scale farms.',
     category: 'Farming',
+    price: 180000,
     image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=80',
+    featured: false,
+    createdAt: null,
+    updatedAt: null,
   },
   {
-    name: 'Modern Control',
+    id: 'default-6',
+    name: 'Control Console',
+    description: 'Modern dashboards for smart systems and automation.',
     category: 'Smart Home',
+    price: 65000,
     image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1000&q=80',
+    featured: false,
+    createdAt: null,
+    updatedAt: null,
   },
 ];
-
-function loadGallery() {
-  if (typeof window === 'undefined') return [];
-  const stored = window.localStorage.getItem('blessed-rico-gallery');
-  if (!stored) return [];
-  try {
-    return JSON.parse(stored) as GalleryItem[];
-  } catch {
-    return [];
-  }
-}
 
 export default function ProductsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
-  const [gallery, setGallery] = useState<GalleryItem[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [showAll, setShowAll] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setGallery(loadGallery());
+    const loadProducts = async () => {
+      try {
+        const fetched = await getProducts();
+        setProducts(fetched);
+      } catch (error) {
+        console.error('Failed to load products:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    const handleGalleryUpdate = () => setGallery(loadGallery());
-    window.addEventListener('gallery-update', handleGalleryUpdate);
-    return () => window.removeEventListener('gallery-update', handleGalleryUpdate);
+    loadProducts();
+
+    const handleProductUpdate = async () => {
+      setIsLoading(true);
+      await loadProducts();
+    };
+
+    window.addEventListener('product-updated', handleProductUpdate);
+    return () => window.removeEventListener('product-updated', handleProductUpdate);
   }, []);
 
-  const galleryItems = useMemo(() => (gallery.length ? gallery : defaultGallery), [gallery]);
+  const galleryItems = useMemo(() => (products.length ? products : defaultGallery), [products]);
   const bentoClasses = ['col-span-2 row-span-2', 'col-span-2 row-span-1', 'col-span-1 row-span-1', 'col-span-1 row-span-2', 'col-span-2 row-span-1', 'col-span-1 row-span-1'];
-
   const visibleItems = showAll ? galleryItems : galleryItems.slice(0, 5);
 
   return (
     <section id="products" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-brand-gray/20">
       <SectionMeta
         title="Products — BLESSED RICCO Gallery"
-        description="Explore our product gallery featuring solar installations, smart home devices, and farming equipment in a playful bento grid." 
+        description="Explore our product gallery featuring solar installations, smart home devices, and farming equipment in a playful bento grid."
         url="https://blessed-rico.netlify.app/#products"
         image="https://blessed-rico.netlify.app/og_products.jpg"
         keywords="products, gallery, solar, smart home, farming"
@@ -95,9 +129,9 @@ export default function ProductsSection() {
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {visibleItems.map((item, i) => (
+          {(isLoading ? defaultGallery : visibleItems).map((item, i) => (
             <motion.article
-              key={`${item.name}-${i}`}
+              key={`${item.id}-${i}`}
               className={`group relative overflow-hidden rounded-[32px] bg-brand-gray shadow-2xl shadow-black/30 ${bentoClasses[i % bentoClasses.length]} min-h-[260px]`}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -123,7 +157,7 @@ export default function ProductsSection() {
           ))}
         </div>
 
-        {galleryItems.length > 5 && (
+        {!isLoading && galleryItems.length > 5 && (
           <div className="mt-6 text-center">
             <button
               onClick={() => setShowAll((s) => !s)}
@@ -133,13 +167,6 @@ export default function ProductsSection() {
             </button>
           </div>
         )}
-
-        {/* <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-6 text-sm text-white/60">
-          <div className="flex items-center gap-3 text-brand-gold font-semibold mb-3">
-            Admin uploads sync to the gallery.
-          </div>
-          <p>Use the admin upload page at <span className="text-white">?admin=1</span> to add images that appear here automatically.</p>
-        </div> */}
       </div>
     </section>
   );
