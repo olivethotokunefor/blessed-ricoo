@@ -181,10 +181,6 @@ export default function AdminProductUpload() {
                 />
               </div>
 
-              <div>
-                <label htmlFor="product-price" className="block text-sm text-white/60 mb-2">Price</label>
-               
-              </div>
             </div>
 
             
