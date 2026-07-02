@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Zap, Wrench, Clock, PiggyBank } from 'lucide-react';
+import SectionMeta from '../lib/SectionMeta';
 
 const features = [
   { icon: PiggyBank, title: 'Energy Savings', desc: 'Slash your electricity bills with efficient solar power.' },
@@ -15,13 +16,27 @@ export default function SolarEnergySection() {
 
   return (
     <section className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <SectionMeta
+        title="Solar Energy — BLESSED RICCO"
+        description="Reliable, long-lasting solar energy systems with expert installation and warranties."
+        url="https://blessed-rico.netlify.app/#solar-energy"
+        keywords="solar energy, solar panels, renewable energy, installation"
+      />
       <div className="absolute inset-0 bg-gradient-to-b from-brand-gray/30 to-brand-bg" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-gold/5 rounded-full blur-[150px]" />
 
       <div className="relative max-w-7xl mx-auto" ref={ref}>
         <div className="relative h-[300px] sm:h-[400px] rounded-3xl overflow-hidden mb-12 bg-gradient-to-br from-brand-gray to-brand-bg flex items-center justify-center">
           <div className="text-center">
-<img src="https://images.unsplash.com/photo-1594818379496-da1e345b0ded?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />          </div>
+            <img
+              src="https://images.unsplash.com/photo-1594818379496-da1e345b0ded?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+              alt="Solar panels installed on rooftop generating clean energy"
+              loading="lazy"
+              decoding="async"
+              width="1032"
+              height="688"
+            />
+          </div>
           <div className="absolute inset-0 bg-gradient-to-t from-brand-bg/80 via-transparent to-brand-bg/30" />
           <motion.div
             className="absolute bottom-8 left-8 sm:left-12"

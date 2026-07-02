@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Leaf, Tractor, MessageCircle, ChevronRight } from 'lucide-react';
+import SectionMeta from '../lib/SectionMeta';
 
 const cards = [
   { icon: Leaf, title: 'Seeds', desc: 'Certified, high-germination seeds for maximum yield and crop health.' },
@@ -14,6 +15,12 @@ export default function FarmingSolutions() {
 
   return (
     <section className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <SectionMeta
+        title="Farming Solutions — BLESSED RICCO"
+        description="Seeds, machinery, and agricultural consultation to help farmers increase yield and efficiency." 
+        url="https://blessed-rico.netlify.app/#farming"
+        keywords="farming solutions, seeds, machinery, agriculture"
+      />
       <div className="absolute inset-0 bg-gradient-to-br from-brand-green/5 to-brand-bg" />
       <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-brand-green/5 rounded-full blur-[150px] -translate-y-1/2" />
 
@@ -26,7 +33,15 @@ export default function FarmingSolutions() {
             transition={{ duration: 0.8 }}
           >
             <div className="text-center">
-<img src="https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />            </div>
+              <img
+                src="https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                alt="Farming equipment and green fields"
+                loading="lazy"
+                decoding="async"
+                width="774"
+                height="516"
+              />
+            </div>
             <div className="absolute inset-0 bg-gradient-to-t from-brand-bg/60 via-transparent to-transparent" />
           </motion.div>
 

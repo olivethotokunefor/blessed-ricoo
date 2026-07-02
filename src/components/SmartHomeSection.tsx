@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { Lightbulb, Smartphone, Wifi, Shield, ChevronRight } from 'lucide-react';
+import SectionMeta from '../lib/SectionMeta';
 
 export default function SmartHomeSection() {
   const ref = useRef(null);
@@ -22,6 +23,12 @@ export default function SmartHomeSection() {
 
   return (
     <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <SectionMeta
+        title="Smart Home — BLESSED RICCO"
+        description="Control your home from anywhere with smart lighting, security, and app control solutions."
+        url="https://blessed-rico.netlify.app/#smart-home"
+        keywords="smart home, home automation, smart lighting, security"
+      />
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center" ref={ref}>
           {/* Left */}
@@ -82,7 +89,15 @@ export default function SmartHomeSection() {
           >
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-brand-gray to-brand-bg overflow-hidden flex items-center justify-center">
               <div className="text-center relative z-10">
-<img src="https://images.unsplash.com/photo-1608377205619-03a0b4c4e270?q=80&w=410&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />              </div>
+                <img
+                  src="https://images.unsplash.com/photo-1608377205619-03a0b4c4e270?q=80&w=410&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Smart home control interface on a mobile device"
+                  loading="lazy"
+                  decoding="async"
+                  width="410"
+                  height="273"
+                />
+              </div>
               {/* Animated light glows */}
               <motion.div
                 className="absolute top-[20%] left-[30%] w-24 h-24 rounded-full bg-brand-gold/20 blur-2xl"

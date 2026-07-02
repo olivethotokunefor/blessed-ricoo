@@ -209,7 +209,7 @@ export default function AdminProductUpload() {
             </motion.button>
           </form>
 
-          {/* Instructions */}
+          {/* Instructions
           <div className="mt-8 p-4 bg-white/5 rounded-xl">
             <h3 className="text-sm font-semibold text-brand-gold mb-2">Setup Instructions:</h3>
             <ol className="text-xs text-white/60 space-y-1 list-decimal list-inside">
@@ -217,7 +217,7 @@ export default function AdminProductUpload() {
               <li>Add <code>VITE_IMGBB_API_KEY</code> to your project <code>.env</code> file</li>
               <li>In production, connect this to a database to persist products</li>
             </ol>
-          </div>
+          </div> */}
         </motion.div>
       </div>
     </div>

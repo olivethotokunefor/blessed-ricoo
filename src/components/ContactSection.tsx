@@ -1,24 +1,45 @@
 import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Phone, Mail, MapPin, Send, MessageCircle, Clock } from 'lucide-react';
+import SectionMeta from '../lib/SectionMeta';
 
 export default function ContactSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    setStatusMessage('Opening your email client...');
 
     const subject = `Inquiry from ${formData.name}`;
     const body = `Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0APhone: ${formData.phone}%0D%0A%0D%0A${formData.message}`;
-    window.location.href = `mailto:farmricco@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
 
-    setFormData({ name: '', email: '', phone: '', message: '' });
+    // Use mailto to open client while providing accessible feedback
+    try {
+      window.location.href = `mailto:farmricco@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setStatusMessage('If your email client did not open, please use the Email button above.');
+        setFormData({ name: '', email: '', phone: '', message: '' });
+      }, 1500);
+    } catch (err) {
+      setIsSubmitting(false);
+      setStatusMessage('Failed to open email client. Please try sending manually to farmricco@gmail.com');
+    }
   };
 
   return (
     <section id="contact" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 bg-brand-gray/20">
+      <SectionMeta
+        title="Contact — BLESSED RICCO"
+        description="Contact BLESSED RICCO for solar installations, CCTV, smart home automation, furniture & farming support in Lagos."
+        url="https://blessed-rico.netlify.app/#contact"
+        keywords="contact, phone, email, Lagos, BLESSED RICCO"
+      />
       <div className="max-w-7xl mx-auto" ref={ref}>
         <motion.div
           className="text-center mb-16"
@@ -114,8 +135,9 @@ export default function ContactSection() {
             <form onSubmit={handleSubmit} className="glass rounded-3xl p-6 sm:p-8 space-y-6">
               <h3 className="text-xl font-bold mb-2">Send a Message</h3>
               <div>
-                <label className="block text-sm text-white/60 mb-2">Name</label>
+                <label htmlFor="contact-name" className="block text-sm text-white/60 mb-2">Name</label>
                 <input
+                  id="contact-name"
                   type="text"
                   required
                   value={formData.name}
@@ -125,8 +147,9 @@ export default function ContactSection() {
                 />
               </div>
               <div>
-                <label className="block text-sm text-white/60 mb-2">Email</label>
+                <label htmlFor="contact-email" className="block text-sm text-white/60 mb-2">Email</label>
                 <input
+                  id="contact-email"
                   type="email"
                   required
                   value={formData.email}
@@ -136,8 +159,9 @@ export default function ContactSection() {
                 />
               </div>
               <div>
-                <label className="block text-sm text-white/60 mb-2">Phone</label>
+                <label htmlFor="contact-phone" className="block text-sm text-white/60 mb-2">Phone</label>
                 <input
+                  id="contact-phone"
                   type="tel"
                   required
                   value={formData.phone}
@@ -147,8 +171,9 @@ export default function ContactSection() {
                 />
               </div>
               <div>
-                <label className="block text-sm text-white/60 mb-2">Message</label>
+                <label htmlFor="contact-message" className="block text-sm text-white/60 mb-2">Message</label>
                 <textarea
+                  id="contact-message"
                   required
                   rows={4}
                   value={formData.message}
@@ -159,13 +184,16 @@ export default function ContactSection() {
               </div>
               <motion.button
                 type="submit"
-                className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-gold text-brand-bg font-semibold rounded-xl hover:bg-white transition-colors"
+                disabled={isSubmitting}
+                className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-brand-gold text-brand-bg font-semibold rounded-xl hover:bg-white transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                aria-busy={isSubmitting}
               >
                 <Send className="w-4 h-4" />
-                Send Message
+                {isSubmitting ? 'Sending…' : 'Send Message'}
               </motion.button>
+              <div aria-live="polite" className="text-sm text-white/60 mt-2">{statusMessage}</div>
             </form>
           </motion.div>
         </div>

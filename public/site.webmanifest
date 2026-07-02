@@ -1,0 +1,11 @@
+{
+  "name": "BLESSED RICCO",
+  "short_name": "BLESSED RICCO",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111827",
+  "theme_color": "#F6B800",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

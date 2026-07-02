@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Sun, Camera, Home, Leaf, Zap, ChevronRight, Phone } from 'lucide-react';
+import SectionMeta from '../lib/SectionMeta';
 
 const floatingCards = [
   { icon: Sun, label: 'Solar Energy', position: 'top-10 right-[10%]', delay: 0 },
@@ -16,6 +17,13 @@ export default function HeroSection() {
 
   return (
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+      <SectionMeta
+        title="Home — BLESSED RICCO"
+        description="Power Your Home. Protect What Matters. Solar, CCTV, Smart Home and Farming solutions in Lagos."
+        url="https://blessed-rico.netlify.app/"
+        image="https://blessed-rico.netlify.app/og_home.jpg"
+        keywords="solar, cctv, smart home, farming, Lagos"
+      />
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-brand-bg via-brand-bg to-brand-gray/30" />
       <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-brand-gold/5 rounded-full blur-[120px]" />
@@ -82,7 +90,15 @@ export default function HeroSection() {
           >
             <div className="w-full h-full bg-gradient-to-br from-brand-gray to-brand-bg rounded-3xl flex items-center justify-center">
               <div className="text-center">
-<img src="https://plus.unsplash.com/premium_photo-1688686804638-fadb460edc4a?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" />              </div>
+                <img
+                  src="https://plus.unsplash.com/premium_photo-1688686804638-fadb460edc4a?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Modern interior showcasing smart home technology"
+                  loading="lazy"
+                  decoding="async"
+                  width="580"
+                  height="387"
+                />
+              </div>
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-brand-bg/60 via-transparent to-transparent rounded-3xl" />
           </motion.div>

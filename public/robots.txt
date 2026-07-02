@@ -1,0 +1,5 @@
+User-agent: *
+
+Allow: /
+
+Sitemap: https://blessed-rico.netlify.app/sitemap.xml

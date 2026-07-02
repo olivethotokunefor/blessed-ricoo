@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Sun, Camera, Home, Zap, Leaf, Bed } from 'lucide-react';
+import SectionMeta from '../lib/SectionMeta';
 
 const services = [
   { icon: Sun, title: 'Solar Solutions', desc: 'Premium solar panels and inverters for homes and businesses.', color: 'text-brand-gold' },
@@ -17,6 +18,12 @@ export default function ServicesSection() {
 
   return (
     <section id="services" className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8">
+      <SectionMeta
+        title="Services — BLESSED RICCO"
+        description="Our Services include solar solutions, CCTV installation, smart home automation, furniture & beddings, and farming solutions."
+        url="https://blessed-rico.netlify.app/#services"
+        keywords="services, solar, cctv, smart home, furniture, farming"
+      />
       <div className="max-w-7xl mx-auto">
         <motion.div
           ref={ref}
