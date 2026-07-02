@@ -134,12 +134,12 @@ export default function ProductsSection() {
           </div>
         )}
 
-        <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-6 text-sm text-white/60">
+        {/* <div className="mt-10 rounded-3xl border border-white/10 bg-white/5 p-6 text-sm text-white/60">
           <div className="flex items-center gap-3 text-brand-gold font-semibold mb-3">
             Admin uploads sync to the gallery.
           </div>
           <p>Use the admin upload page at <span className="text-white">?admin=1</span> to add images that appear here automatically.</p>
-        </div>
+        </div> */}
       </div>
     </section>
   );
